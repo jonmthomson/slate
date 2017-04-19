@@ -15,6 +15,8 @@ set :js_dir, 'javascripts'
 set :images_dir, 'images'
 set :fonts_dir, 'fonts'
 
+activate :livereload
+
 # Activate the syntax highlighter
 activate :syntax
 ready do
@@ -22,6 +24,7 @@ ready do
 end
 
 activate :sprockets
+# activate :directory_indexes
 
 activate :autoprefixer do |config|
   config.browsers = ['last 2 version', 'Firefox ESR']
@@ -32,6 +35,17 @@ end
 # Github pages require relative links
 activate :relative_assets
 set :relative_links, true
+
+# Site-wide search
+# activate :search do |search|
+#   search.resources = ['/']
+#   search.index_path = '/search.json'
+#   search.fields = {
+#     title:    {boost: 100, store: true, required: true},
+#     content:  {boost: 50},
+#     url:      {index: false, store: true},
+#   }
+# end
 
 # Build Configuration
 configure :build do
@@ -47,3 +61,9 @@ end
 # Deploy Configuration
 # If you want Middleman to listen on a different port, you can set that below
 set :port, 4567
+
+ready do
+  sitemap.resources.group_by {|p| p.data["category"] }.each do |category, pages|
+    proxy "/#{category}/index.html", "category.html", :locals => { :category => category, :pages => pages }
+  end
+end

@@ -1,0 +1,61 @@
+/* -----------------------------------------------------------------------------
+
+  COMPENENTS - RATING
+  
+----------------------------------------------------------------------------- */
+.rating-wrapper {
+  float: right;
+  margin-top: 2.2em;
+  margin-right: 51%;
+  width: 150px; 
+}
+
+.c-rating {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+  /*margin: 0;*/
+}
+
+.c-rating__item {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 24px;
+      -ms-flex: 0 0 24px;
+          flex: 0 0 24px;
+  height: 24px;
+  background: url("../images/stars.svg");
+  background-position: 0 0;
+  cursor: pointer;
+}
+
+.c-rating__item:hover,
+.c-rating__item.is-active {
+  background-position: -24px 0;
+}
+
+#rating-description {
+  padding-left: 5px;
+  padding-right: 6px;
+  color: #ffffff;
+  background-color: #393939;
+  border-color: #292929;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-top: 5px;
+  float: left;
+}
+
+#rating-description.not-active {
+  display: none;
+}
+
+#rating-description.is-active {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;  
+}

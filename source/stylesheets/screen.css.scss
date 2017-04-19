@@ -24,7 +24,6 @@ under the License.
 ////////////////////////////////////////////////////////////////////////////////
 
 html, body {
-  color: $main-text;
   padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -55,6 +54,32 @@ html, body {
     $nav-subitem-bg;
 }
 
+.nav-site-links {
+    li,a {
+      //color: $nav-text;
+      color: #939da3;
+      text-decoration: none;
+      text-transform: uppercase;
+      padding: 26px $nav-padding 0 $nav-padding;
+      margin: 0;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    li {
+      line-height: 1.7;
+      text-decoration: none;
+    }  
+
+
+    display: block;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .tocify-wrapper {
   transition: left 0.3s ease-in-out;
 
@@ -67,8 +92,12 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
-  font-size: 13px;
-  font-weight: bold;
+  font-size: 15px;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  //font-weight: bold;
+  border-right-color: #f0f4f7;
+  border-right-style: solid;
+  border-right-width: 1px;
 
   // language selector for mobile devices
   .lang-selector {
@@ -80,9 +109,13 @@ html, body {
   }
 
   // This is the logo at the top of the ToC
-  &>img {
+  img:first-of-type {
     display: block;
     max-width: 100%;
+    border-bottom-color: #f0f4f7;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 0.8em;
   }
 
   &>.search {
@@ -145,9 +178,8 @@ html, body {
     }
   }
 
-
   .tocify-item>a, .toc-footer li {
-    padding: 0 $nav-padding 0 $nav-padding;
+    padding: 6px $nav-padding 6px $nav-padding;
     display: block;
     overflow-x: hidden;
     white-space: nowrap;
@@ -161,7 +193,7 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    line-height: 28px;
+    line-height: 20px;
   }
 
   li {
@@ -171,11 +203,21 @@ html, body {
     transition-duration: 230ms;
   }
 
+  a:hover {
+    text-decoration: underline;
+    color: #292e31;
+  }
+
   // This is the currently selected ToC entry
   .tocify-focus {
-    box-shadow: 0px 1px 0px $nav-active-shadow;
+    //box-shadow: 0px 1px 0px $nav-active-shadow;
     background-color: $nav-active-bg;
     color: $nav-active-text;
+
+    a:hover {
+      color: $nav-active-text;
+      text-decoration: none;
+    }
   }
 
   // Subheaders are the submenus that slide open
@@ -186,14 +228,14 @@ html, body {
     font-weight: 500;
     .tocify-item>a {
       padding-left: $nav-padding + $nav-indent;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     // for embossed look:
-    @include embossed-bg;
-    &>li:last-child {
-      box-shadow: none; // otherwise it'll overflow out of the subheader
-    }
+    //@include embossed-bg;
+    //&>li:last-child {
+    //  box-shadow: none; // otherwise it'll overflow out of the subheader
+    //}
   }
 
   .toc-footer {
@@ -283,15 +325,20 @@ html, body {
   .lang-selector {
     position: fixed;
     z-index: 50;
-    border-bottom: 5px solid $lang-select-active-bg;
+    //border-bottom: 5px solid $lang-select-active-bg;
   }
 }
 
 .lang-selector {
   background-color: $lang-select-bg;
   width: 100%;
-  font-weight: bold;
+  height: 50px;
+  padding-left: 40px;
+
+  //font-weight: bold;
   a {
+    margin-top: 8px;
+    margin-right: 2px;
     display: block;
     float:left;
     color: $lang-select-text;
@@ -299,14 +346,26 @@ html, body {
     padding: 0 10px;
     line-height: 30px;
     outline: 0;
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    font-size: 14px;
+
+    &:not(.active):hover {
+      border-color: $examples-bg;
+      border-style: solid;
+
+    }
 
     &:active, &:focus {
-      background-color: $lang-select-pressed-bg;
+      background-color: $examples-bg;
       color: $lang-select-pressed-text;
     }
 
     &.active {
-      background-color: $lang-select-active-bg;
+      //background-color: $lang-select-active-bg;
+      background-color: #0099e5;
       color: $lang-select-active-text;
     }
   }
@@ -334,75 +393,109 @@ html, body {
     clear: both;
   }
 
-  &>h1, &>h2, &>h3, &>h4, &>h5, &>h6, &>p, &>table, &>ul, &>ol, &>aside, &>dl {
+  %content-doc-layout {
     margin-right: $examples-width;
     padding: 0 $main-padding;
     box-sizing: border-box;
     display: block;
-    text-shadow: $main-embossed-text-shadow;
 
-    @extend %left-col;
+    @extend %left-col;    
+  }
+
+  h1, h2, h3, h4, h5, h6, p, table, ul, ol, aside, dl {
+    @extend %content-doc-layout;
   }
 
   &>ul, &>ol {
     padding-left: $main-padding + 15px;
   }
 
-  // the div is the tocify hidden div for placeholding stuff
-  &>h1, &>h2, &>div {
+  // The div is the tocify hidden div for placeholding stuff
+  // Necessary to make example line up with correct heading
+  &>h1, &>h2 {
     clear:both;
   }
+  //&>div
 
   h1 {
+    // Layout
+    //padding-top: 2.0em;
+    padding-top: 50px;
+    //padding-bottom: 0.5em;
+    //margin-bottom: $h1-margin-bottom;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-top: 50px;
+    border-top-width: 1px;
+
+    // Typography
     @extend %header-font;
-    font-size: 30px;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: $h1-margin-bottom;
-    margin-top: 2em;
-    border-top: 1px solid #ddd;
-    background-image: linear-gradient(to bottom, #fff, #f9f9f9);
+    font-size: 24px;
+    font-weight: 400;
+
+    // Appearance
+    border-top-style: solid;
+    border-top-color: #f0f4f7;
   }
 
-  h1:first-child, div:first-child + h1 {
-    border-top-width: 0;
+  &>h1:first-of-type {
     margin-top: 0;
+    padding-top: 30px;
+    border-top-width: 0;
+    clear: none;
+  }
+
+  .rating-wrapper~h1:first-of-type {
+    margin-top: 0;
+    padding-top: 3.8em;
+    border-top-width: 0;    
   }
 
   h2 {
-    @extend %header-font;
-    font-size: 20px;
-    margin-top: 4em;
+    // Layout
+    //padding-top: 1.2em;
+    //padding-bottom: 1.2em;
+    //margin-top: 4em;
+    //margin-bottom: 0;
+    padding-top: 40px;
+    margin-top: 0;
     margin-bottom: 0;
-    border-top: 1px solid #ccc;
-    padding-top: 1.2em;
-    padding-bottom: 1.2em;
-    background-image: linear-gradient(to bottom, rgba(#fff, 0.4), rgba(#fff, 0));
+
+    // Typography
+    @extend %header-font;
+    font-size: 18px;
+    font-weight: 400;
   }
 
   // h2s right after h1s should bump right up
   // against the h1s.
   h1 + h2, h1 + div + h2 {
-    margin-top: $h1-margin-bottom * -1;
-    border-top: none;
+    //margin-top: $h1-margin-bottom * -1;
   }
 
   h3, h4, h5, h6 {
-    @extend %header-font;
-    font-size: 15px;
+    // Layout
     margin-top: 2.5em;
     margin-bottom: 0.8em;
-  }
 
-  h4, h5, h6 {
-    font-size: 10px;
+    // Typography
+    @extend %header-font;
   }
 
   hr {
     margin: 2em 0;
     border-top: 2px solid $examples-bg;
     border-bottom: 2px solid $main-bg;
+  }
+
+  a {
+    color: #0099e5;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #292e31;
+    text-decoration: none;
   }
 
   table {
@@ -445,8 +538,13 @@ html, body {
     margin-left: 15px;
   }
 
-  p, li, dt, dd {
-    line-height: 1.6;
+  p {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
+  li, dt, dd {
+    line-height: 1.6em;
     margin-top: 0;
   }
 
@@ -455,16 +553,23 @@ html, body {
   }
 
   code {
-    background-color: rgba(0,0,0,0.05);
+    background-color: #fafcfc;
     padding: 3px;
     border-radius: 3px;
     @extend %break-words;
     @extend %code-font;
   }
 
+  code.prettyprint {
+    color: #b93d6a;
+    border: 1px solid #f0f4f7;
+    font-weight: bolder;
+  }
+
   pre>code {
     background-color: transparent;
     padding: 0;
+
   }
 
   aside {
@@ -513,6 +618,41 @@ html, body {
     text-shadow: 1px 1px 0 #666;
     background: linear-gradient(to top left, #F7E633 0%, #F1D32F 100%);
   }
+
+  .doc-list-container {
+    /*display: block;*/
+  }
+
+  .doc-list-group {
+    list-style-type: none;
+    margin-right: $examples-width;
+    padding: 0 $main-padding;
+
+    li {
+      border-top-color: #f0f4f7;
+      border-top-style: solid;
+      border-top-width: 1px;
+      padding-top: 5px;
+    }
+  }
+
+  .doc-list-group:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .doc-list-label {
+    float: left; 
+    display: inline;
+    width: 39%;
+  }
+
+  .doc-list-description {
+    float: right; 
+    display: inline;
+    width: 60%;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -548,6 +688,7 @@ html, body {
 
   pre {
     @extend %code-font;
+    white-space: pre-wrap;
   }
 
   blockquote {

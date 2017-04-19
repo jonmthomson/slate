@@ -1,0 +1,64 @@
+---
+title:
+
+language_tabs:
+
+toc_footers:
+
+includes:
+
+search: true
+
+---
+
+<script type="text/javascript">document.title = "<%= category %>"</script>
+
+#<%= category %>
+
+<div class="doc-list-container">
+  <% pages.each do |page| %>
+
+    <script type="text/javascript">
+      // debugger;
+
+      var topic = '<%= page.data.topic %>';
+      if (topic.length == 0){ topic = 'no-topic'}
+
+      var selector = '#'.concat(topic);
+      var ul = document.querySelector(selector);
+      if (!ul)
+      {
+        var parent = document.querySelector('.doc-list-container');
+
+        var div = document.createElement('div');
+        div.className = 'doc-list-container';
+
+        if (topic == "no-topic")
+        {
+          parent.insertAdjacentElement('afterbegin', div);
+        }
+        else
+        {
+          var header = document.createElement('h2');
+          header.innerText = topic;
+          div.appendChild(header);
+          parent.appendChild(div);
+        }
+
+        var ul = document.createElement('ul');
+        ul.className = 'doc-list-group';
+        ul.id = topic;
+        div.appendChild(ul);
+      }
+
+      var li = document.createElement('li');
+      li.className = 'doc-list-item';
+      li.innerHTML = '<%= link_to page.data.title, page, :class => "doc-list-label" %>'
+      var description = document.createElement('div');
+      description.className = 'doc-list-description';
+      description.innerText = ''.concat("<%= page.data.description %>");
+      li.appendChild(description);
+      ul.appendChild(li);
+    </script>
+  <% end %>
+</div>

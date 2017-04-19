@@ -20,18 +20,37 @@ under the License.
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title><%= current_page.data.title || "API Documentation" %></title>
+    <title><%= current_page.data.title || "CPAP Software Docs" %></title>
 
     <style>
       <%= Rouge::Themes::MonokaiSublime.render(:scope => '.highlight') %>
     </style>
     <%= stylesheet_link_tag :screen, media: :screen %>
     <%= stylesheet_link_tag :print, media: :print %>
+    <%= stylesheet_link_tag 'rating' %>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
     <% if current_page.data.search %>
       <%= javascript_include_tag  "all" %>
     <% else %>
       <%= javascript_include_tag  "all_nosearch" %>
     <% end %>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//localhost:8080/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', '1']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img src="//localhost:8080/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
@@ -42,7 +61,9 @@ under the License.
       </span>
     </a>
     <div class="tocify-wrapper">
-      <%= image_tag "logo.png" %>
+      <% link_to '/' do %>
+        <%= image_tag "logo.png" %>
+      <% end %>
       <% if language_tabs.any? %>
         <div class="lang-selector">
           <% language_tabs.each do |lang| %>
@@ -60,6 +81,9 @@ under the License.
         </div>
         <ul class="search-results"></ul>
       <% end %>
+      <ul class="nav-site-links">
+        <li><%= link_to current_page.data.category, current_page.data.category %></li>
+      </ul>
       <div id="toc">
       </div>
       <% if current_page.data.toc_footers %>
@@ -73,6 +97,12 @@ under the License.
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
+        <% if current_page.data.category %>
+          <div class="rating-wrapper">
+            <div class="c-rating"></div>
+            <div id="rating-description"></div>
+          </div>
+        <% end %>
         <%= yield %>
         <% current_page.data.includes && current_page.data.includes.each do |include| %>
           <%= partial "includes/#{include}" %>
@@ -92,5 +122,35 @@ under the License.
         <% end %>
       </div>
     </div>
+
+
+    <script>
+      /**
+       * Demo in action!
+       */
+      (function() {
+      
+        // INITIALIZE
+        (function init() {
+         
+            addRatingWidget();
+          
+        })();
+
+        // ADD RATING WIDGET
+        function addRatingWidget() {
+          var ratingElement = document.querySelector('.c-rating');
+          var currentRating = 0;
+          var maxRating = 5;
+          var callback = function(rating) { 
+            //alert(rating);
+            _paq.push(['trackEvent', 'Article', 'Rating', document.title, rating]);
+          };
+          var r = rating(ratingElement, currentRating, maxRating, callback);
+        }
+      })();
+    </script>
+
+
   </body>
 </html>
